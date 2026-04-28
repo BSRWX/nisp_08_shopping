@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "title": "Smartfon XYZ Pro 256GB Czarny 5G",
+    "price": 4299.0,
+    "availability": "Dostępny od ręki",
+    "category": "Smartfony",
+    "specs": [
+      "Ekran: 6.7\" OLED 120Hz",
+      "Pamięć: 8 / 256 GB",
+      "Aparat: 108.0 Mpix"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Słuchawki bezprzewodowe AudioTech 3.0 ANC",
+    "price": 598.0,
+    "availability": "Dostępny od ręki",
+    "category": "Audio",
+    "specs": [
+      "Łączność: Bluetooth 5.3",
+      "Budowa: Nauszne zamknięte",
+      "Mikrofon: Tak"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Smartwatch FitGear Active 2",
+    "price": 899.0,
+    "availability": "Ostatnie sztuki",
+    "category": "Smartwatche",
+    "specs": [
+      "Przekątna ekranu: 1.4\"",
+      "Czas pracy: do 14 dni",
+      "GPS: Wbudowany"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Powerbank 20000mAh Ultra Charge",
+    "price": 149.0,
+    "availability": "W magazynie",
+    "category": "Akcesoria",
+    "specs": [
+      "Pojemność: 20000 mAh",
+      "Złącza: 2x USB-A, 1x USB-C",
+      "Szybkie ładowanie: Tak"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Smartfon Alpha X 128GB Niebieski",
+    "price": 2999.0,
+    "availability": "Dostępny od ręki",
+    "category": "Smartfony",
+    "specs": ["Ekran: 6.1\" AMOLED", "Pamięć: 6 / 128 GB", "Bateria: 4500 mAh"]
+  }
+]

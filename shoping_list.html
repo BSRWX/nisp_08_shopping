@@ -3,103 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lista Produktów</title>
+    <title>Lista Produktów - Kategorie</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="page-container">
       <header class="category-header">
-        <h1>Smartfony i telefony</h1>
-        <span class="product-count">Znaleziono: 2 produkty</span>
+        <div>
+          <h1>Elektronika</h1>
+          <span class="product-count" id="product-count"
+            >Ładowanie produktów...</span
+          >
+        </div>
+
+        <a href="koszyk.html" class="cart-link" aria-label="Przejdź do koszyka">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path
+              d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+            ></path>
+          </svg>
+          <span>Koszyk</span>
+          <span class="cart-badge" id="cart-counter">0</span>
+        </a>
       </header>
 
-      <main class="product-grid">
-        <article class="product-card">
-          <a href="/produkt/1" class="product-link">
-            <div class="product-image">
-              <div class="img-placeholder">IMG</div>
-            </div>
-            <h2 class="product-title">Smartfon XYZ Pro 256GB Czarny 5G</h2>
-          </a>
+      <nav class="category-filters" id="category-filters"></nav>
 
-          <ul class="product-specs">
-            <li>Ekran: 6.7" OLED 120Hz</li>
-            <li>Pamięć: 8 / 256 GB</li>
-            <li>Aparat: 108.0 Mpix</li>
-          </ul>
-
-          <div class="product-bottom">
-            <p class="product-availability">Dostępny od ręki</p>
-            <div class="product-price">4 299,00 zł</div>
-
-            <form action="/koszyk/dodaj" method="POST">
-              <input type="hidden" name="product_id" value="1" />
-              <input type="hidden" name="quantity" value="1" />
-              <button type="submit" class="add-to-cart-btn">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <circle cx="9" cy="21" r="1"></circle>
-                  <circle cx="20" cy="21" r="1"></circle>
-                  <path
-                    d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
-                  ></path>
-                </svg>
-                Do koszyka
-              </button>
-            </form>
-          </div>
-        </article>
-
-        <article class="product-card">
-          <a href="/produkt/2" class="product-link">
-            <div class="product-image">
-              <div class="img-placeholder">IMG</div>
-            </div>
-            <h2 class="product-title">
-              Słuchawki bezprzewodowe AudioTech 3.0 ANC
-            </h2>
-          </a>
-
-          <ul class="product-specs">
-            <li>Łączność: Bluetooth 5.3</li>
-            <li>Budowa: Nauszne zamknięte</li>
-            <li>Mikrofon: Tak, wbudowany</li>
-          </ul>
-
-          <div class="product-bottom">
-            <p class="product-availability">Dostępny od ręki</p>
-            <div class="product-price">598,00 zł</div>
-
-            <form action="/koszyk/dodaj" method="POST">
-              <input type="hidden" name="product_id" value="2" />
-              <input type="hidden" name="quantity" value="1" />
-              <button type="submit" class="add-to-cart-btn">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <circle cx="9" cy="21" r="1"></circle>
-                  <circle cx="20" cy="21" r="1"></circle>
-                  <path
-                    d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
-                  ></path>
-                </svg>
-                Do koszyka
-              </button>
-            </form>
-          </div>
-        </article>
-      </main>
+      <main class="product-grid" id="product-grid"></main>
     </div>
+
+    <script src="script.js"></script>
   </body>
 </html>
