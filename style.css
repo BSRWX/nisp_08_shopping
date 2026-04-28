@@ -211,7 +211,6 @@ form {
   font-weight: 600;
   font-family: inherit;
   color: var(--text-main);
-  -moz-appearance: textfield;
   /* Firefox ukrycie strzałek */
 }
 
@@ -366,4 +365,70 @@ form {
 
 .checkout-btn.secondary:hover {
   background-color: #444;
+}
+/* --- Aktualizacja Nagłówka --- */
+.category-header {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* --- Przycisk Koszyka --- */
+.cart-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--text-main);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 10px 16px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  transition: all var(--transition);
+}
+
+.cart-link:hover {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+}
+
+.cart-badge {
+  background-color: var(--accent-red);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* --- Filtry Kategorii --- */
+.category-filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 8px 20px;
+  border-radius: 20px; /* Okrągłe przyciski typu "pill" */
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+  transition: all var(--transition);
+}
+
+.filter-btn:hover {
+  border-color: var(--accent-red);
+}
+
+.filter-btn.active {
+  background-color: var(--accent-red);
+  color: #ffffff;
+  border-color: var(--accent-red);
 }
