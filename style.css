@@ -1,0 +1,294 @@
+/* --- Zmienne konfiguracyjne (Klimat X-Kom) --- */
+:root {
+  --bg-body: #f3f3f3; /* Jasnoszare tło strony */
+  --bg-card: #ffffff; /* Czysta biel dla kontenerów */
+  --text-main: #222222; /* Ciemny grafit, łagodniejszy niż czysty czarny */
+  --text-muted: #707070; /* Szarość dla mniej ważnych tekstów */
+  --border-color: #e5e5e5; /* Subtelne obramowania */
+  --accent-red: #ea0000; /* Energetyczna czerwień (główny CTA) */
+  --accent-red-hover: #cc0000;
+  --success-green: #008a00; /* Zieleń dla dostępności produktu */
+  --btn-gray: #f5f5f5;
+  --btn-gray-hover: #e0e0e0;
+  --radius: 8px; /* Nowoczesne, delikatne zaokrąglenia */
+  --transition: 0.2s ease-in-out;
+}
+
+/* --- Reset i Base --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    "Open Sans",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  line-height: 1.5;
+  padding: 40px 20px;
+}
+
+/* --- Kontener Główny --- */
+.shopping-list-container {
+  max-width: 960px;
+  margin: 0 auto;
+  background-color: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); /* Bardzo delikatny cień */
+  overflow: hidden;
+}
+
+/* --- Nagłówek --- */
+.shopping-list-header {
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.shopping-list-header h1 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.item-count {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* --- Lista Produktów --- */
+.shopping-list {
+  list-style: none;
+}
+
+.list-item {
+  display: flex;
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border-color);
+  align-items: center;
+  gap: 24px;
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+/* --- Miniatura Produktu --- */
+.item-image {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  background-color: var(--bg-card);
+}
+
+.img-placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-body);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* --- Detale Produktu --- */
+.item-details {
+  flex-grow: 1;
+}
+
+.item-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.item-title:hover {
+  color: var(--accent-red);
+}
+
+.item-availability {
+  font-size: 13px;
+  color: var(--success-green);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.item-availability::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: var(--success-green);
+  border-radius: 50%;
+}
+
+/* --- Akcje (Ilość, Cena, Usuń) --- */
+.item-actions {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+/* Komponent wyboru ilości */
+.quantity-control {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.qty-btn {
+  background-color: var(--bg-card);
+  border: none;
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--text-main);
+  transition: background-color var(--transition);
+}
+
+.qty-btn:hover {
+  background-color: var(--btn-gray-hover);
+}
+
+.qty-input {
+  width: 44px;
+  height: 36px;
+  border: none;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--text-main);
+  -moz-appearance: textfield; /* Firefox ukrycie strzałek */
+}
+
+/* Ukrycie strzałek w Webkit */
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.item-price {
+  font-size: 18px;
+  font-weight: 700;
+  min-width: 110px;
+  text-align: right;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-btn:hover {
+  color: var(--accent-red);
+}
+
+/* --- Podsumowanie --- */
+.shopping-list-summary {
+  padding: 24px 32px;
+  background-color: var(--bg-body); /* Odcięcie tłem */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 32px;
+  border-top: 1px solid var(--border-color);
+}
+
+.summary-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.summary-label {
+  font-size: 15px;
+  color: var(--text-main);
+}
+
+.summary-total {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* Przycisk CTA */
+.checkout-btn {
+  background-color: var(--accent-red);
+  color: #ffffff;
+  border: none;
+  padding: 14px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 4px; /* Ostre krawędzie w przyciskach konwersji sprawdzają się w elektronice */
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+
+.checkout-btn:hover {
+  background-color: var(--accent-red-hover);
+}
+
+/* --- Media Queries (Mobile) --- */
+@media (max-width: 768px) {
+  .list-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .item-details {
+    width: 100%;
+  }
+
+  .item-actions {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+
+  .item-price {
+    flex-grow: 1;
+    text-align: right;
+  }
+
+  .shopping-list-summary {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .summary-content {
+    justify-content: space-between;
+  }
+
+  .checkout-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
