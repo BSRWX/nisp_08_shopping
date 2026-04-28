@@ -1,4 +1,5 @@
 const CART_STORAGE_KEY = "xkom_clone_cart";
+const ORDERS_STORAGE_KEY = "xkom_clone_orders";
 let allProducts = []; // Przechowuje oryginalną listę pobraną z JSON
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -6,7 +7,12 @@ document.addEventListener("DOMContentLoaded", () => {
     initApp();
   }
   if (document.querySelector(".shopping-list")) {
-    initCartPage();
+    const h1 = document.querySelector("h1");
+    if (h1 && h1.textContent.toLowerCase().includes("zamówie")) {
+      initOrdersPage();
+    } else {
+      initCartPage();
+    }
   }
   updateCartCounter();
 });
@@ -159,6 +165,11 @@ function updateCartCounter() {
 // --- LOGIKA STRONY KOSZYKA ---
 function initCartPage() {
   renderCartItems();
+  const checkoutBtn = document.querySelector('.checkout-btn');
+  if (checkoutBtn && !checkoutBtn.hasAttribute('data-bound')) {
+    checkoutBtn.addEventListener('click', placeOrder);
+    checkoutBtn.setAttribute('data-bound', 'true');
+  }
 }
 
 function renderCartItems() {
@@ -272,4 +283,94 @@ function getPluralForm(count) {
     return 'produkty';
   }
   return 'produktów';
+}
+
+// --- LOGIKA ZAMÓWIEŃ ---
+function placeOrder() {
+  const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+  if (cart.length === 0) {
+    alert("Twój koszyk jest pusty!");
+    return;
+  }
+  
+  let orders = JSON.parse(localStorage.getItem(ORDERS_STORAGE_KEY)) || [];
+  const totalValue = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  
+  const newOrder = {
+    id: Date.now(),
+    date: new Date().toLocaleDateString('pl-PL', { day: 'numeric', month: 'short', year: 'numeric' }),
+    items: cart,
+    total: totalValue,
+    status: "W trakcie realizacji"
+  };
+  
+  orders.push(newOrder);
+  localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders));
+  localStorage.removeItem(CART_STORAGE_KEY);
+  
+  alert("Zamówienie zostało pomyślnie złożone!");
+  window.location.href = 'orders.html';
+}
+
+function initOrdersPage() {
+  const orders = JSON.parse(localStorage.getItem(ORDERS_STORAGE_KEY)) || [];
+  const listContainer = document.querySelector('.shopping-list');
+  const summaryTotal = document.querySelector('.summary-total');
+  const itemCount = document.querySelector('.item-count');
+  
+  if (!listContainer) return;
+
+  if (orders.length === 0) {
+      listContainer.innerHTML = '<p style="padding: 24px 32px; font-weight: 600;">Brak historii zamówień.</p>';
+      summaryTotal.textContent = '0,00 zł';
+      itemCount.textContent = '0 zamówień';
+      return;
+  }
+
+  const formatPrice = (price) => {
+      return new Intl.NumberFormat('pl-PL', {
+          style: 'currency',
+          currency: 'PLN',
+          minimumFractionDigits: 2
+      }).format(price).replace('PLN', 'zł');
+  };
+
+  let totalSpent = 0;
+
+  listContainer.innerHTML = [...orders].reverse().map((order) => {
+      totalSpent += order.total;
+      const statusClass = order.status === 'W trakcie realizacji' ? 'pending' : '';
+      
+      return `
+        <li class="list-item">
+          <div class="item-image">
+            <div class="img-placeholder">#${order.id.toString().slice(-4)}</div>
+          </div>
+          <div class="item-details">
+            <h2 class="item-title">Zamówienie nr ${order.id}</h2>
+            <p class="item-availability ${statusClass}">${order.status}</p>
+          </div>
+          <div class="item-actions">
+            <div class="order-date">${order.date}</div>
+            <div class="item-price">
+              <span>${formatPrice(order.total)}</span>
+            </div>
+          </div>
+        </li>
+      `;
+  }).join('');
+
+  summaryTotal.textContent = formatPrice(totalSpent);
+  
+  const getOrderPlural = (count) => {
+      if (count === 1) return 'zamówienie';
+      const lastDigit = count % 10;
+      const lastTwoDigits = count % 100;
+      if (lastDigit >= 2 && lastDigit <= 4 && (lastTwoDigits < 10 || lastTwoDigits >= 20)) {
+          return 'zamówienia';
+      }
+      return 'zamówień';
+  };
+  
+  itemCount.textContent = `${orders.length} ${getOrderPlural(orders.length)}`;
 }

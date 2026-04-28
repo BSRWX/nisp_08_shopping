@@ -43,15 +43,18 @@ body {
   padding: 40px 20px;
 }
 
-/* --- Kontener Główny --- */
-.page-container {
+/* --- Kontenery Główne --- */
+.page-container, .shopping-list-container {
   max-width: 1200px;
   margin: 0 auto;
   background-color: var(--bg-card);
   border-radius: var(--radius);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-  /* Bardzo delikatny cień */
   overflow: hidden;
+}
+
+.shopping-list-container {
+  max-width: 960px;
 }
 
 /* --- Nagłówek Kategorii --- */
@@ -179,46 +182,150 @@ body {
   margin-bottom: 16px;
 }
 
-/* --- Dolna sekcja karty --- */
-.product-bottom {
-  margin-top: auto; /* Wypycha dolną sekcję na sam dół karty */
+/* --- Lista Koszyka i Zamówień --- */
+.shopping-list-header {
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }
 
-.product-availability {
-  font-size: 12px;
-  color: var(--success-green);
+.shopping-list-header h1 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.item-count {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.shopping-list {
+  list-style: none;
+}
+
+.list-item {
+  display: flex;
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border-color);
+  align-items: center;
+  gap: 24px;
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+.item-image {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  background-color: var(--bg-card);
+}
+
+.item-details {
+  flex-grow: 1;
+}
+
+.item-title {
+  font-size: 15px;
+  font-weight: 600;
   margin-bottom: 4px;
+  cursor: pointer;
+  transition: color var(--transition);
 }
 
-.product-price {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 16px;
+.item-title:hover {
+  color: var(--accent-red);
 }
 
-/* --- Formularz i Przycisk CTA --- */
-form {
-  margin: 0;
+.item-availability {
+  font-size: 13px;
+  color: var(--success-green);
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.add-to-cart-btn {
-  width: 100%;
-  background-color: var(--accent-red);
-  color: #ffffff;
+.item-availability::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: var(--success-green);
+  border-radius: 50%;
+}
+
+.item-actions {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.qty-btn {
+  background-color: var(--bg-card);
   border: none;
-  padding: 12px;
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--text-main);
+  transition: background-color var(--transition);
+}
+
+.qty-btn:hover {
+  background-color: var(--btn-gray-hover);
+}
+
+.qty-input {
+  width: 44px;
+  height: 36px;
+  border: none;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  text-align: center;
   font-size: 15px;
   font-weight: 600;
   font-family: inherit;
   color: var(--text-main);
-  /* Firefox ukrycie strzałek */
+  -moz-appearance: textfield;
 }
 
-/* Ukrycie strzałek w Webkit */
 .qty-input::-webkit-outer-spin-button,
 .qty-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.item-price {
+  font-size: 18px;
+  font-weight: 700;
+  min-width: 110px;
+  text-align: right;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-btn:hover {
+  color: var(--accent-red);
 }
 
 .item-price {
@@ -272,9 +379,24 @@ form {
   color: var(--text-main);
 }
 
-/* Przycisk CTA */
+/* Przycisk CTA (Koszyk) */
 .checkout-btn {
-/* --- Formularz i Przycisk CTA --- */
+  background-color: var(--accent-red);
+  color: #ffffff;
+  border: none;
+  padding: 14px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+
+.checkout-btn:hover {
+  background-color: var(--accent-red-hover);
+}
+
+/* --- Formularz i Przycisk CTA (Store) --- */
 form {
   margin: 0;
 }
@@ -288,7 +410,6 @@ form {
   font-size: 15px;
   font-weight: 600;
   border-radius: 4px;
-  /* Ostre krawędzie w przyciskach konwersji sprawdzają się w elektronice */
   cursor: pointer;
   display: flex;
   align-items: center;
