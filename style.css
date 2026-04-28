@@ -44,8 +44,8 @@ body {
 }
 
 /* --- Kontener Główny --- */
-.shopping-list-container {
-  max-width: 960px;
+.page-container {
+  max-width: 1200px;
   margin: 0 auto;
   background-color: var(--bg-card);
   border-radius: var(--radius);
@@ -54,48 +54,62 @@ body {
   overflow: hidden;
 }
 
-/* --- Nagłówek --- */
-.shopping-list-header {
-  padding: 24px 32px;
-  border-bottom: 1px solid var(--border-color);
+/* --- Nagłówek Kategorii --- */
+.category-header {
+  margin-bottom: 24px;
   display: flex;
-  justify-content: space-between;
   align-items: baseline;
+  gap: 16px;
 }
 
-.shopping-list-header h1 {
-  font-size: 22px;
-  font-weight: 600;
+.category-header h1 {
+  font-size: 28px;
+  font-weight: 700;
 }
 
-.item-count {
+.product-count {
   color: var(--text-muted);
   font-size: 14px;
 }
 
-/* --- Lista Produktów --- */
-.shopping-list {
-  list-style: none;
+/* --- Siatka Produktów --- */
+.product-grid {
+  display: grid;
+  /* Tworzy responsywną siatkę - kolumny minimum 280px, maksimum na ile pozwala miejsce */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
 }
 
-.list-item {
-  display: flex;
-  padding: 24px 32px;
-  border-bottom: 1px solid var(--border-color);
-  align-items: center;
-  gap: 24px;
-}
-
-.list-item:last-child {
-  border-bottom: none;
-}
-
-/* --- Miniatura Produktu --- */
-.item-image {
-  width: 80px;
-  height: 80px;
-  flex-shrink: 0;
+/* --- Karta Produktu --- */
+.product-card {
   background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 24px;
+  display: flex;
+  flex-direction: column; /* Flexbox pozwala nam wypchnąć dolną sekcję */
+  transition:
+    box-shadow var(--transition),
+    border-color var(--transition);
+}
+
+.product-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-color: transparent; /* Pozbywamy się borderu, by cień grał pierwsze skrzypce */
+}
+
+/* Usunięcie stylów dla linków owijających produkt */
+.product-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* --- Miniatura i Tytuł --- */
+.product-image {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* Zapewnia kwadratowy obszar na zdjęcie */
+  margin-bottom: 20px;
 }
 
 .img-placeholder {
@@ -107,82 +121,92 @@ body {
   align-items: center;
   justify-content: center;
   color: var(--text-muted);
-  font-size: 12px;
   font-weight: bold;
 }
 
-/* --- Detale Produktu --- */
-.item-details {
-  flex-grow: 1;
-}
-
-.item-title {
-  font-size: 15px;
+.product-title {
+  font-size: 16px;
   font-weight: 600;
-  margin-bottom: 4px;
-  cursor: pointer;
+  line-height: 1.4;
+  margin-bottom: 16px;
+  /* Przycięcie do max 2 linijek z wielokropkiem (clamp) */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   transition: color var(--transition);
 }
 
-.item-title:hover {
+.product-card:hover .product-title {
   color: var(--accent-red);
 }
 
-.item-availability {
+/* --- Specyfikacja --- */
+.product-specs {
+  list-style: none;
+  margin-bottom: 24px;
+}
+
+.product-specs li {
   font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  position: relative;
+  padding-left: 12px;
+}
+
+.product-specs li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #ccc;
+}
+
+/* --- Dolna sekcja karty --- */
+.product-bottom {
+  margin-top: auto; /* Wypycha dolną sekcję na sam dół karty */
+}
+
+.product-availability {
+  font-size: 12px;
   color: var(--success-green);
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  margin-bottom: 4px;
 }
 
-.item-availability::before {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background-color: var(--success-green);
-  border-radius: 50%;
+.product-price {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
 }
 
-/* --- Akcje (Ilość, Cena, Usuń) --- */
-.item-actions {
-  display: flex;
-  align-items: center;
-  gap: 32px;
+/* --- Dolna sekcja karty --- */
+.product-bottom {
+  margin-top: auto; /* Wypycha dolną sekcję na sam dół karty */
 }
 
-/* Komponent wyboru ilości */
-.quantity-control {
-  display: flex;
-  align-items: center;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  overflow: hidden;
+.product-availability {
+  font-size: 12px;
+  color: var(--success-green);
+  margin-bottom: 4px;
 }
 
-.qty-btn {
-  background-color: var(--bg-card);
+.product-price {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* --- Formularz i Przycisk CTA --- */
+form {
+  margin: 0;
+}
+
+.add-to-cart-btn {
+  width: 100%;
+  background-color: var(--accent-red);
+  color: #ffffff;
   border: none;
-  width: 36px;
-  height: 36px;
-  font-size: 18px;
-  cursor: pointer;
-  color: var(--text-main);
-  transition: background-color var(--transition);
-}
-
-.qty-btn:hover {
-  background-color: var(--btn-gray-hover);
-}
-
-.qty-input {
-  width: 44px;
-  height: 36px;
-  border: none;
-  border-left: 1px solid var(--border-color);
-  border-right: 1px solid var(--border-color);
-  text-align: center;
+  padding: 12px;
   font-size: 15px;
   font-weight: 600;
   font-family: inherit;
@@ -209,8 +233,8 @@ body {
   background: none;
   border: none;
   color: var(--text-muted);
+  border-radius: 4px;
   cursor: pointer;
-  transition: color var(--transition);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -251,19 +275,30 @@ body {
 
 /* Przycisk CTA */
 .checkout-btn {
+/* --- Formularz i Przycisk CTA --- */
+form {
+  margin: 0;
+}
+
+.add-to-cart-btn {
+  width: 100%;
   background-color: var(--accent-red);
   color: #ffffff;
   border: none;
-  padding: 14px 40px;
-  font-size: 16px;
+  padding: 12px;
+  font-size: 15px;
   font-weight: 600;
   border-radius: 4px;
   /* Ostre krawędzie w przyciskach konwersji sprawdzają się w elektronice */
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   transition: background-color var(--transition);
 }
 
-.checkout-btn:hover {
+.add-to-cart-btn:hover {
   background-color: var(--accent-red-hover);
 }
 
