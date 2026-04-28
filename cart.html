@@ -1,186 +1,36 @@
 <!doctype html>
 <html lang="pl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Działający Koszyk</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="shopping-list-container">
-      <header class="shopping-list-header">
-        <h1>Twoja lista zakupów</h1>
-        <span class="item-count">3 produkty</span>
-      </header>
 
-      <main class="shopping-list-content">
-        <ul class="shopping-list">
-          <!-- Item 1 -->
-          <li class="list-item" data-price="4299.00">
-            <div class="item-image">
-              <div class="img-placeholder">IMG</div>
-            </div>
-            <div class="item-details">
-              <h2 class="item-title">Smartfon XYZ Pro 256GB Czarny</h2>
-              <p class="item-availability">W magazynie</p>
-            </div>
-            <div class="item-actions">
-              <div class="quantity-control">
-                <button class="qty-btn" aria-label="Zmniejsz ilość">-</button>
-                <input
-                  type="number"
-                  class="qty-input"
-                  value="1"
-                  min="1"
-                  aria-label="Ilość sztuk"
-                />
-                <button class="qty-btn" aria-label="Zwiększ ilość">+</button>
-              </div>
-              <div class="item-price">
-                <span>4 299,00 zł</span>
-              </div>
-              <button class="remove-btn" aria-label="Usuń z listy">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M18 6L6 18M6 6l12 12"></path>
-                </svg>
-              </button>
-            </div>
-          </li>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Działający Koszyk</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-          <!-- Item 2 -->
-          <li class="list-item" data-price="299.00">
-            <div class="item-image">
-              <div class="img-placeholder">IMG</div>
-            </div>
-            <div class="item-details">
-              <h2 class="item-title">Słuchawki bezprzewodowe AudioTech 3.0</h2>
-              <p class="item-availability">W magazynie</p>
-            </div>
-            <div class="item-actions">
-              <div class="quantity-control">
-                <button class="qty-btn" aria-label="Zmniejsz ilość">-</button>
-                <input
-                  type="number"
-                  class="qty-input"
-                  value="2"
-                  min="1"
-                  aria-label="Ilość sztuk"
-                />
-                <button class="qty-btn" aria-label="Zwiększ ilość">+</button>
-              </div>
-              <div class="item-price">
-                <span>598,00 zł</span>
-              </div>
-              <button class="remove-btn" aria-label="Usuń z listy">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M18 6L6 18M6 6l12 12"></path>
-                </svg>
-              </button>
-            </div>
-          </li>
-        </ul>
-      </main>
+<body>
+  <div class="shopping-list-container">
+    <header class="shopping-list-header">
+      <h1>Twoja lista zakupów</h1>
+      <span class="item-count">3 produkty</span>
+    </header>
 
-      <footer class="shopping-list-summary">
-        <div class="summary-content">
-          <span class="summary-label">Wartość koszyka:</span>
-          <span class="summary-total">4 897,00 zł</span>
-        </div>
-        <button class="checkout-btn">Przejdź do dostawy</button>
-      </footer>
-    </div>
+    <main class="shopping-list-content">
+      <ul class="shopping-list">
+        <!-- Elementy koszyka będą ładowane dynamicznie przez script.js -->
+      </ul>
+    </main>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const formatPrice = (price) => {
-          return new Intl.NumberFormat('pl-PL', {
-            style: 'currency',
-            currency: 'PLN',
-            minimumFractionDigits: 2
-          }).format(price).replace('PLN', 'zł');
-        };
+    <footer class="shopping-list-summary">
+      <div class="summary-content">
+        <span class="summary-label">Wartość koszyka:</span>
+        <span class="summary-total">4 897,00 zł</span>
+      </div>
+      <button class="checkout-btn">Przejdź do dostawy</button>
+    </footer>
+  </div>
 
-        const getPluralForm = (count) => {
-          if (count === 1) return 'produkt';
-          const lastDigit = count % 10;
-          const lastTwoDigits = count % 100;
-          if (lastDigit >= 2 && lastDigit <= 4 && (lastTwoDigits < 10 || lastTwoDigits >= 20)) {
-            return 'produkty';
-          }
-          return 'produktów';
-        };
+  <script src="script.js"></script>
+</body>
 
-        const updateCart = () => {
-          let totalCartValue = 0;
-          let totalItemsCount = 0;
-          const items = document.querySelectorAll('.list-item');
-
-          items.forEach(item => {
-            const pricePerItem = parseFloat(item.dataset.price);
-            const input = item.querySelector('.qty-input');
-            const quantity = parseInt(input.value) || 1;
-            
-            const itemTotalPrice = pricePerItem * quantity;
-            item.querySelector('.item-price span').textContent = formatPrice(itemTotalPrice);
-            
-            totalCartValue += itemTotalPrice;
-            totalItemsCount += quantity;
-          });
-
-          document.querySelector('.summary-total').textContent = formatPrice(totalCartValue);
-          document.querySelector('.item-count').textContent = `${totalItemsCount} ${getPluralForm(totalItemsCount)}`;
-        };
-
-        document.querySelector('.shopping-list').addEventListener('click', (e) => {
-          const item = e.target.closest('.list-item');
-          if (!item) return;
-
-          if (e.target.closest('.qty-btn')) {
-            const btn = e.target.closest('.qty-btn');
-            const input = item.querySelector('.qty-input');
-            let currentValue = parseInt(input.value) || 1;
-
-            if (btn.textContent.trim() === '+') {
-              input.value = currentValue + 1;
-            } else if (btn.textContent.trim() === '-' && currentValue > 1) {
-              input.value = currentValue - 1;
-            }
-            updateCart();
-          }
-
-          if (e.target.closest('.remove-btn')) {
-            item.remove();
-            updateCart();
-          }
-        });
-
-        document.querySelector('.shopping-list').addEventListener('change', (e) => {
-          if (e.target.classList.contains('qty-input')) {
-            let currentValue = parseInt(e.target.value);
-            if (isNaN(currentValue) || currentValue < 1) {
-              e.target.value = 1;
-            }
-            updateCart();
-          }
-        });
-
-        // Initial calculation to ensure correctness
-        updateCart();
-      });
-    </script>
-  </body>
 </html>

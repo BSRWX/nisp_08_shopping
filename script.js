@@ -2,7 +2,13 @@ const CART_STORAGE_KEY = "xkom_clone_cart";
 let allProducts = []; // Przechowuje oryginalną listę pobraną z JSON
 
 document.addEventListener("DOMContentLoaded", () => {
-  initApp();
+  if (document.getElementById("product-grid")) {
+    initApp();
+  }
+  if (document.querySelector(".shopping-list")) {
+    initCartPage();
+  }
+  updateCartCounter();
 });
 
 async function initApp() {
@@ -144,5 +150,126 @@ function addToCart(product) {
 function updateCartCounter() {
   const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  document.getElementById("cart-counter").textContent = totalItems;
+  const counterEl = document.getElementById("cart-counter");
+  if (counterEl) {
+    counterEl.textContent = totalItems;
+  }
+}
+
+// --- LOGIKA STRONY KOSZYKA ---
+function initCartPage() {
+  renderCartItems();
+}
+
+function renderCartItems() {
+  const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+  const listContainer = document.querySelector('.shopping-list');
+  const summaryTotal = document.querySelector('.summary-total');
+  const itemCount = document.querySelector('.item-count');
+
+  if (!listContainer) return;
+
+  if (cart.length === 0) {
+    listContainer.innerHTML = '<p style="padding: 24px 32px; font-weight: 600;">Twój koszyk jest pusty.</p>';
+    summaryTotal.textContent = '0,00 zł';
+    itemCount.textContent = '0 produktów';
+    return;
+  }
+
+  let totalValue = 0;
+  let totalItems = 0;
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('pl-PL', {
+      style: 'currency',
+      currency: 'PLN',
+      minimumFractionDigits: 2
+    }).format(price).replace('PLN', 'zł');
+  };
+
+  listContainer.innerHTML = cart.map((item) => {
+    const itemTotal = item.price * item.quantity;
+    totalValue += itemTotal;
+    totalItems += item.quantity;
+
+    return `
+        <li class="list-item" data-id="${item.id}">
+          <div class="item-image">
+            <div class="img-placeholder">IMG</div>
+          </div>
+          <div class="item-details">
+            <h2 class="item-title">${item.title}</h2>
+            <p class="item-availability">${item.availability || 'W magazynie'}</p>
+          </div>
+          <div class="item-actions">
+            <div class="quantity-control">
+              <button class="qty-btn" aria-label="Zmniejsz ilość" onclick="updateCartItemQuantity(${item.id}, -1)">-</button>
+              <input
+                type="number"
+                class="qty-input"
+                value="${item.quantity}"
+                min="1"
+                aria-label="Ilość sztuk"
+                onchange="setCartItemQuantity(${item.id}, this.value)"
+              />
+              <button class="qty-btn" aria-label="Zwiększ ilość" onclick="updateCartItemQuantity(${item.id}, 1)">+</button>
+            </div>
+            <div class="item-price">
+              <span>${formatPrice(itemTotal)}</span>
+            </div>
+            <button class="remove-btn" aria-label="Usuń z listy" onclick="removeCartItem(${item.id})">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+        </li>
+      `;
+  }).join('');
+
+  summaryTotal.textContent = formatPrice(totalValue);
+  itemCount.textContent = `${totalItems} ${getPluralForm(totalItems)}`;
+}
+
+function updateCartItemQuantity(id, delta) {
+  let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+  const item = cart.find(i => i.id === id);
+  if (item) {
+    item.quantity += delta;
+    if (item.quantity < 1) item.quantity = 1;
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+    renderCartItems();
+    updateCartCounter();
+  }
+}
+
+function setCartItemQuantity(id, value) {
+  let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+  const item = cart.find(i => i.id === id);
+  if (item) {
+    let newQty = parseInt(value);
+    if (isNaN(newQty) || newQty < 1) newQty = 1;
+    item.quantity = newQty;
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+    renderCartItems();
+    updateCartCounter();
+  }
+}
+
+function removeCartItem(id) {
+  let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+  cart = cart.filter(i => i.id !== id);
+  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+  renderCartItems();
+  updateCartCounter();
+}
+
+function getPluralForm(count) {
+  if (count === 1) return 'produkt';
+  const lastDigit = count % 10;
+  const lastTwoDigits = count % 100;
+  if (lastDigit >= 2 && lastDigit <= 4 && (lastTwoDigits < 10 || lastTwoDigits >= 20)) {
+    return 'produkty';
+  }
+  return 'produktów';
 }
