@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Historia Zamówień</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="shopping-list-container">
+      <header class="shopping-list-header">
+        <h1>Historia zamówień</h1>
+        <span class="item-count">3 zamówienia</span>
+      </header>
+
+      <main class="shopping-list-content">
+        <ul class="shopping-list">
+          <!-- Zamówienie 1 -->
+          <li class="list-item">
+            <div class="item-image">
+              <div class="img-placeholder">#123</div>
+            </div>
+            <div class="item-details">
+              <h2 class="item-title">Zamówienie nr 123456789</h2>
+              <p class="item-availability">Dostarczone</p>
+            </div>
+            <div class="item-actions">
+              <div class="order-date">25 kwi 2026</div>
+              <div class="item-price">
+                <span>4 897,00 zł</span>
+              </div>
+            </div>
+          </li>
+
+          <!-- Zamówienie 2 -->
+          <li class="list-item">
+            <div class="item-image">
+              <div class="img-placeholder">#124</div>
+            </div>
+            <div class="item-details">
+              <h2 class="item-title">Zamówienie nr 123456800</h2>
+              <p class="item-availability pending">W trakcie realizacji</p>
+            </div>
+            <div class="item-actions">
+              <div class="order-date">28 kwi 2026</div>
+              <div class="item-price">
+                <span>1 250,00 zł</span>
+              </div>
+            </div>
+          </li>
+
+          <!-- Zamówienie 3 -->
+          <li class="list-item">
+            <div class="item-image">
+              <div class="img-placeholder">#125</div>
+            </div>
+            <div class="item-details">
+              <h2 class="item-title">Zamówienie nr 123456801</h2>
+              <p class="item-availability">Dostarczone</p>
+            </div>
+            <div class="item-actions">
+              <div class="order-date">10 mar 2026</div>
+              <div class="item-price">
+                <span>299,00 zł</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </main>
+
+      <footer class="shopping-list-summary">
+        <div class="summary-content">
+          <span class="summary-label">Wydano łącznie:</span>
+          <span class="summary-total">6 446,00 zł</span>
+        </div>
+        <button class="checkout-btn secondary" onclick="window.location.href='index.html'">Wróć do sklepu</button>
+      </footer>
+    </div>
+  </body>
+</html>
